@@ -115,8 +115,7 @@ function run_cmake_for_arrow() {
         #-DARROW_DEPENDENCY_SOURCE=SYSTEM \
 }
 
-arrow_install_dir=$tmp_dir
-echo "arrow_install_dir: "$arrow_install_dir
+cd $build_dir
 if [ ! -d arrow ]; then
     echo "### Arrow - start ###"
     arrow_version=apache-arrow-0.17.1
@@ -153,33 +152,35 @@ if [ ! -d arrow ]; then
     make -j$MAKEJ install
 
     echo "### Arrow - end ###"
+
+    # BEGIN pyarrow
+    # reenable the error catch system for the shell
+    echo "### PyArrow - start ###"
+    set -e
+    export ARROW_HOME=$tmp_dir
+    export PARQUET_HOME=$tmp_dir
+    #export SETUPTOOLS_SCM_PRETEND_VERSION=$PKG_VERSION
+    export PYARROW_BUILD_TYPE=release
+    export PYARROW_WITH_DATASET=1
+    export PYARROW_WITH_PARQUET=1
+    export PYARROW_WITH_ORC=1
+    export PYARROW_WITH_PLASMA=1
+    export PYARROW_WITH_CUDA=1
+    export PYARROW_WITH_GANDIVA=0
+    export PYARROW_WITH_FLIGHT=0
+    export PYARROW_WITH_S3=0
+    export PYARROW_WITH_HDFS=0
+
+    cd $build_dir/arrow/python
+    python setup.py build_ext install --single-version-externally-managed --record=record.txt
+    echo "### PyArrow - end ###"
+    # END pyarrow
+
+    #END arrow
 fi
 
 # reenable the error catch system for the shell
 set -e
-
-#END arrow
-
-# BEGIN pyarrow
-
-export ARROW_HOME=$tmp_dir
-export PARQUET_HOME=$tmp_dir
-#export SETUPTOOLS_SCM_PRETEND_VERSION=$PKG_VERSION
-export PYARROW_BUILD_TYPE=release
-export PYARROW_WITH_DATASET=1
-export PYARROW_WITH_PARQUET=1
-export PYARROW_WITH_ORC=1
-export PYARROW_WITH_PLASMA=1
-export PYARROW_WITH_CUDA=1
-export PYARROW_WITH_GANDIVA=0
-export PYARROW_WITH_FLIGHT=0
-export PYARROW_WITH_S3=0
-export PYARROW_WITH_HDFS=0
-
-cd $build_dir/arrow/python
-python setup.py build_ext install --single-version-externally-managed --record=record.txt
-
-# END pyarrow
 
 #BEGIN spdlog
 cd $build_dir

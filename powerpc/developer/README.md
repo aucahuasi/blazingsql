@@ -88,11 +88,11 @@ JAVA_HOME=/usr/lib/jvm/jre CONDA_PREFIX=/opt/blazingsql-powerpc-prefix/ LD_LIBRA
 ```shell
 module list
 module avail
-module show ddt/8.1
+module show blazingsql/0.15
 
 echo $PATH
 echo $LD_LIBRARY_PATH
-module load ddt
+module load blazingsql/0.15
 echo $PATH
 echo $LD_LIBRARY_PATH
 ```

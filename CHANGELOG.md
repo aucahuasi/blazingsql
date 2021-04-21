@@ -38,7 +38,8 @@
 - #1444 Updating GCP to >= version
 - #1349 Add e2e test for Hive Partitioned Data
 - #1447 Improve getting estimated output num rows
-- #1473 Added Warning to Window Functions 
+- #1473 Added Warning to Window Functions
+- #1433 Adding ArrowCacheData, refactoring CacheData files
 
 ## Bug Fixes
 - #1335 Fixing uninitialized var in orc metadata and handling the parseMetadata exceptions properly
@@ -119,6 +120,7 @@
 - #1320 Revamping cache logger
 - #1323 Made progress bar update continuously and stay after query is done 
 - #1336 Improvements for the cache API
+- #1483 Improve dependencies script
 
 ## Bug Fixes
 - #1249 Fix compilation with cuda 11
